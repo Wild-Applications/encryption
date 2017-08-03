@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: encryption
+  labels:
+   name: encryption
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: deployment
+  namespace: encryption
+  labels:
+    app: encryption
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: encryption
+    spec:
+      containers:
+      - name: encryption
+        image: blueapp/encryption:0.0.0
+        ports:
+        - containerPort: 50051
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+  namespace: encryption
+  labels:
+    app: encryption
+spec:
+  type: ClusterIP
+  ports:
+  - port: 1295
+    targetPort: 50051
+  selector:
+    app: encryption
+  externalName: encryption

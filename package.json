@@ -1,0 +1,17 @@
+{
+  "name": "encryption",
+  "version": "0.0.0",
+  "description": "Microservice to handle all encryption",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/app.js"
+  },
+  "author": "Michael Wild",
+  "license": "ISC",
+  "dependencies": {
+    "grpc": "^1.3.9",
+    "restify": "^4.3.0",
+    "restify-router": "^0.4.2"
+  }
+}

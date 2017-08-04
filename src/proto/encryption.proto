@@ -5,13 +5,24 @@ package encryption;
 //Methods exposed to client
 service EncryptionService {
   rpc encryptPassword (EncryptionRequest) returns (EncryptionReply){}
+  rpc checkPassword (EncryptionCheckRequest) returns (EncryptionCheckReply){}
 }
 
 // Message Type definition for user
 message EncryptionRequest {
+  int32 _id = 1;
   string password = 2;
 }
 
 message EncryptionReply {
-  string encrypted = 2;
+  string encrypted = 1;
+}
+
+message EncryptionCheckRequest {
+  int32 _id = 1;
+  string password = 2;
+}
+
+message EncryptionCheckReply {
+  bool match = 1;
 }

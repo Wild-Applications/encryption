@@ -7,11 +7,13 @@ const proto = grpc.load(__dirname + '/proto/encryption.proto');
 const server = new grpc.Server();
 
 //define the callable methods that correspond to the methods defined in the protofile
-server.addService(proto.user.EncryptionService.service, {
+server.addService(proto.encryption.EncryptionService.service, {
   encryptPassword: function(call, callback){
     encryptionHelper.encrypt(call, callback);
+  },
+  checkPassword: function(call, callback){
+    encryptionHelper.check(call, callback);
   }
-
 });
 
 //Specify the IP and and port to start the grpc Server, no SSL in test environment

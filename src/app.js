@@ -9,7 +9,7 @@ const server = new grpc.Server();
 //define the callable methods that correspond to the methods defined in the protofile
 server.addService(proto.encryption.EncryptionService.service, {
   encryptPassword: function(call, callback){
-    encryptionHelper.encrypt(call, callback);
+    encryptionHelper.hash(call, callback);
   },
   checkPassword: function(call, callback){
     encryptionHelper.check(call, callback);

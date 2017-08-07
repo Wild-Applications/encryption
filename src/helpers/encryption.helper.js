@@ -5,8 +5,9 @@
 var encryptor = {};
 var bcrypt = require('bcrypt');
 
-encryptor.encrypt = function(call, callback){
-  encryptPassword(10,call,callback);
+//functions for external users to hook in to
+encryptor.hash = function(call, callback){
+  hashPassword(10,call,callback);
 }
 
 encryptor.check = function(call, callback){
@@ -15,7 +16,16 @@ encryptor.check = function(call, callback){
 }
 
 
-function encryptPassword(saltRounds, call, callback){
+//-----------------------Internal Functions
+
+
+/**
+**Handles the encryption of strings
+**saltRounds: integer - number of salt rounds to apply
+**call: grpc call
+**callback: callback function
+**/
+function hashPassword(saltRounds, call, callback){
   bcrypt.genSalt(saltRounds, function(err, salt) {
     if (err) {
       callback({"message":"0008 - Salt generation failed. This is likely a problem with the salt library"},null);
@@ -24,6 +34,7 @@ function encryptPassword(saltRounds, call, callback){
         if(error){
           callback({"message":"0009 - Hashing of the password failed. This could be a problem with the hashing library"}, null);
         }else{
+          //would need to store the hash here.
           callback(null,{encrypted:hash});
         }
       });
@@ -31,6 +42,12 @@ function encryptPassword(saltRounds, call, callback){
   });
 }
 
+
+/**
+**Handles the comparison of encrypted strings
+**call: grpc call
+**callback: callback function
+**/
 function checkPassword(call, callback){
   bcrypt.compare(call.request.password, call.request.hash, function(err, res){
     if (err) {

@@ -21,7 +21,8 @@ spec:
     spec:
       containers:
       - name: encryption
-        image: blueapp/encryption:0.0.2
+        image: wildapplications/encryption:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 50051
 ---

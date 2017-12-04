@@ -28,11 +28,11 @@ encryptor.check = function(call, callback){
 function hashPassword(saltRounds, call, callback){
   bcrypt.genSalt(saltRounds, function(err, salt) {
     if (err) {
-      callback({message:"0008 - Salt generation failed. This is likely a problem with the salt library"},null);
+      return callback(errors['0001'],null);
     } else {
       bcrypt.hash(call.request.password, salt, function(error,hash){
         if(error){
-          callback({message:"0009 - Hashing of the password failed. This could be a problem with the hashing library"}, null);
+          return callback(errors['0001'],null);
         }else{
           //would need to store the hash here.
           callback(null,{encrypted:hash});
@@ -51,7 +51,7 @@ function hashPassword(saltRounds, call, callback){
 function checkPassword(call, callback){
   bcrypt.compare(call.request.password, call.request.hash, function(err, res){
     if (err) {
-      callback({"message":"0010 - Comparison of passwords failed"}, null);
+      return callback(errors['0002'],null);
     } else {
       callback(null, {match:res});
     }

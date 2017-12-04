@@ -1,0 +1,4 @@
+{
+  "0001": {"message": "Unable to encrypt password", "code": 500},
+  "0002": {"message": "Unable to compare passwords", "code": 500}
+}
